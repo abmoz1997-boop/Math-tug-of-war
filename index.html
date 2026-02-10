@@ -2,472 +2,105 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Math Tug-of-War</title>
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0288d1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Tug-of-War Mega</title>
 <style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: #e0f7fa;
-    transition: background 0.3s;
-}
-
-body.dark-mode {
-    background: #1a1a1a;
-    color: #fff;
-}
-
-#game-container {
-    min-height: 100vh;
-    padding: 15px;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    transition: background 0.3s;
-}
-
-body.dark-mode #game-container {
-    background: #2a2a2a;
-    color: #fff;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.dark-toggle {
-    background: #333;
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-h2 { 
-    font-size: 24px; 
-    margin: 5px 0; 
-    flex: 1;
-}
-
-.controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin: 10px 0;
-}
-
-select {
-    font-size: 18px;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 10px;
-    border: 2px solid #0288d1;
-    background: white;
-    cursor: pointer;
-}
-
-body.dark-mode select {
-    background: #333;
-    color: #fff;
-    border-color: #0288d1;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    margin: 10px 0;
-}
-
-.stat-box {
-    background: #f0f0f0;
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 16px;
-}
-
-body.dark-mode .stat-box {
-    background: #333;
-}
-
-#score {
-    color: #2e7d32;
-    font-weight: bold;
-}
-
-#timer {
-    color: #d32f2f;
-    font-weight: bold;
-}
-
-#streak {
-    color: #f57c00;
-    font-weight: bold;
-}
-
-#rope-area {
-    height: 100px;
-    background: linear-gradient(135deg, #8bc34a 0%, #7cb342 100%);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    margin: 20px 0;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-#rope {
-    width: 100%;
-    height: 10px;
-    background: #795548;
-    position: relative;
-}
-
-#flag {
-    position: absolute;
-    top: -22px;
-    left: 50%;
-    font-size: 38px;
-    transform: translateX(-50%);
-    transition: 0.3s ease-out;
-}
-
-#question {
-    font-size: 36px;
-    color: #0288d1;
-    margin: 20px 0;
-    font-weight: bold;
-    animation: pulse 0.5s;
-}
-
-body.dark-mode #question {
-    color: #64b5f6;
-}
-
-@keyframes pulse {
-    0% { transform: scale(0.9); }
-    100% { transform: scale(1); }
-}
-
-.buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 20px 0;
-}
-
-button {
-    padding: 18px;
-    font-size: 26px;
-    border: none;
-    border-radius: 15px;
-    background: #ff9800;
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-weight: bold;
-}
-
-button:hover {
-    background: #f57c00;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-button:active {
-    transform: scale(0.95);
-    background: #e65100;
-}
-
-button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-}
-
-#message {
-    height: 40px;
-    font-size: 18px;
-    font-weight: bold;
-    margin: 10px 0;
-    animation: fadeIn 0.3s;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.4);
-}
-
-.modal-content {
-    background-color: white;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    max-width: 400px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-body.dark-mode .modal-content {
-    background-color: #333;
-    color: #fff;
-}
-
-.modal-button {
-    margin: 10px;
-}
-
-.modal-button:active {
-    transform: scale(0.95);
-}
-
+body { text-align: center; font-family: Arial, sans-serif; background: #e0f7fa; margin:0; }
+#game-container { max-width: 600px; margin: auto; padding: 20px; }
+h2 { margin-top: 20px; }
+#rope-area { position: relative; height: 100px; margin: 30px 0; background: #8bc34a; border-radius: 15px; display: flex; align-items: center; overflow: hidden; }
+#rope { width: 100%; height: 10px; background: #795548; position: relative; }
+#flag { position: absolute; top: -20px; left: 50%; font-size: 40px; transform: translateX(-50%); transition: 0.5s; }
+#question { font-size: 32px; color: #0288d1; margin: 20px 0; }
+.buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+button { padding: 15px; font-size: 24px; border: none; border-radius: 10px; background: #ff9800; color: white; cursor: pointer; }
+button:active { transform: scale(0.95); background: #f57c00; }
+#message { font-size: 20px; font-weight: bold; height: 30px; margin-top: 10px; }
+#score { font-size: 18px; margin-top: 5px; color: #2e7d32; }
 </style>
 </head>
-
 <body>
+
 <div id="game-container">
-
-<div class="header">
-    <h2>🤖 ROBOT vs DINO 🦖</h2>
-    <button class="dark-toggle" onclick="toggleDarkMode()">🌙</button>
-</div>
-
-<div class="controls">
-    <select id="level">
-        <option value="1">Standard One</option>
-        <option value="2">Standard Two</option>
-        <option value="3">Standard Three</option>
-    </select>
-
-    <select id="lang">
-        <option value="en">English</option>
-        <option value="sw">Kiswahili</option>
-    </select>
-</div>
-
-<div class="stats">
-    <div class="stat-box">Score: <span id="score">0</span></div>
-    <div class="stat-box">Time: <span id="timer">60s</span></div>
-    <div class="stat-box">Streak: <span id="streak">0</span></div>
-</div>
-
+<h2>🤖 ROBOT vs DINO 🦖</h2>
+<div id="score">Score: 0</div>
 <div id="rope-area">
-    <div id="rope">
-        <div id="flag">🚩</div>
-    </div>
+<div id="rope"><div id="flag">🚩</div></div>
 </div>
-
-<div id="question">---</div>
+<div id="question">Loading...</div>
 <div class="buttons" id="btn-container"></div>
 <div id="message"></div>
-
-</div>
-
-<div id="gameOverModal" class="modal">
-    <div class="modal-content">
-        <h2 id="modalTitle">Game Over!</h2>
-        <p id="modalStats"></p>
-        <button class="modal-button" onclick="playAgain()" style="background: #4CAF50;">Play Again</button>
-        <button class="modal-button" onclick="resetGame()" style="background: #2196F3;">Main Menu</button>
-    </div>
 </div>
 
 <script>
-let pos = 50, score = 0, answer = 0, streak = 0, timeLeft = 60, gameActive = true;
-const soundEnabled = true;
+let pos = 50;
+let score = 0;
+let currentAns = 0;
 
-function t(en, sw) {
-    return document.getElementById("lang").value === "sw" ? sw : en;
-}
+// Generate random math question
+function generateQuestion() {
+    const operations = ['+', '-', '*', '/'];
+    const op = operations[Math.floor(Math.random() * operations.length)];
+    let n1 = Math.floor(Math.random() * 50) + 1;
+    let n2 = Math.floor(Math.random() * 50) + 1;
 
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
+    if (op === '/') n1 = n1 * n2; // Ensure integer division
 
-function initDarkMode() {
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
+    switch(op) {
+        case '+': currentAns = n1 + n2; break;
+        case '-': currentAns = n1 - n2; break;
+        case '*': currentAns = n1 * n2; break;
+        case '/': currentAns = n1 / n2; break;
     }
-}
-
-function playSound(type) {
-    if (!soundEnabled) return;
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-    
-    if (type === 'correct') {
-        oscillator.frequency.value = 800;
-        gain.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.1);
-    } else {
-        oscillator.frequency.value = 300;
-        gain.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.15);
-    }
-}
-
-function nextQuestion() {
-    if (!gameActive) return;
-    
-    const level = document.getElementById("level").value;
-    let max = 9, ops = ["+"];
-
-    if (level == 2) { max = 20; ops = ["+", "-"]; }
-    if (level == 3) { max = 50; ops = ["+", "-", "×"]; }
-
-    const n1 = Math.floor(Math.random() * max);
-    const n2 = Math.floor(Math.random() * max);
-    const op = ops[Math.floor(Math.random() * ops.length)];
-
-    if (op === "+") answer = n1 + n2;
-    if (op === "-") answer = Math.max(0, n1 - n2);
-    if (op === "×") answer = n1 * n2;
 
     document.getElementById("question").innerText = `${n1} ${op} ${n2} = ?`;
 
-    const options = [answer, answer + 1, answer > 0 ? answer - 1 : answer + 2]
-        .sort(() => Math.random() - 0.5);
-
-    const box = document.getElementById("btn-container");
-    box.innerHTML = "";
-
-    options.forEach(v => {
-        const b = document.createElement("button");
-        b.innerText = v;
-        b.onclick = () => check(v);
-        box.appendChild(b);
+    // create buttons
+    const btns = [currentAns, currentAns + 1, currentAns - 1, currentAns + 2].sort(() => Math.random() - 0.5);
+    const container = document.getElementById("btn-container");
+    container.innerHTML = '';
+    btns.forEach(num => {
+        const btn = document.createElement("button");
+        btn.innerText = num;
+        btn.onclick = () => check(num);
+        container.appendChild(btn);
     });
 }
 
-function check(v) {
-    if (!gameActive) return;
-    
-    gameActive = false;
+function check(num) {
+    const flag = document.getElementById("flag");
     const msg = document.getElementById("message");
 
-    if (v === answer) {
+    if (num === currentAns) {
         pos -= 10;
         score++;
-        streak++;
-        playSound('correct');
-        msg.innerText = t("Correct! 🤖", "Sahihi! 🤖");
-        msg.style.color = "green";
+        msg.innerText = "Sahihi! 🤖";
+        msg.style.color = "blue";
     } else {
         pos += 10;
         score = Math.max(0, score - 1);
-        streak = 0;
-        playSound('wrong');
-        msg.innerText = t("Wrong! 🦖", "Si sahihi! 🦖");
+        msg.innerText = "Si sahihi! 🦖";
         msg.style.color = "red";
     }
 
-    document.getElementById("score").innerText = score;
-    document.getElementById("streak").innerText = streak;
-    document.getElementById("flag").style.left = pos + "%";
+    document.getElementById("score").innerText = `Score: ${score}`;
+    flag.style.left = pos + "%";
 
-    if (pos <= 10 || pos >= 90) {
-        endGame(pos <= 10);
-    } else {
-        setTimeout(() => {
-            gameActive = true;
-            nextQuestion();
-        }, 700);
-    }
+    if (pos <= 10) { alert("ROBOT AMESHINDA! 🤖🏆"); reset(); }
+    else if (pos >= 90) { alert("DINO AMESHINDA! 🦖🏆"); reset(); }
+    else { setTimeout(generateQuestion, 700); }
 }
 
-function startTimer() {
-    const timerInterval = setInterval(() => {
-        if (gameActive && timeLeft > 0) {
-            timeLeft--;
-            document.getElementById("timer").innerText = timeLeft + "s";
-        }
-        
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            if (gameActive) {
-                endGame(null);
-            }
-        }
-    }, 1000);
-}
-
-function endGame(robotWins) {
-    gameActive = false;
-    const modal = document.getElementById("gameOverModal");
-    const title = document.getElementById("modalTitle");
-    const stats = document.getElementById("modalStats");
-    
-    if (robotWins === true) {
-        title.innerText = t("ROBOT WINS!", "ROBOT AMESHINDA!");
-        title.style.color = "green";
-    } else if (robotWins === false) {
-        title.innerText = t("DINO WINS!", "DINO AMESHINDA!");
-        title.style.color = "red";
-    } else {
-        title.innerText = t("Time's Up!", "Wakati Umekwisha!");
-        title.style.color = "orange";
-    }
-    
-    stats.innerText = t(`Final Score: ${score}\nStreak: ${streak}`, `Alama ya Mwisho: ${score}\nMsururu: ${streak}`);
-    modal.style.display = "block";
-}
-
-function playAgain() {
-    document.getElementById("gameOverModal").style.display = "none";
-    resetGame();
-}
-
-function resetGame() {
-    document.getElementById("gameOverModal").style.display = "none";
+function reset() {
     pos = 50;
     score = 0;
-    streak = 0;
-    timeLeft = 60;
-    gameActive = true;
     document.getElementById("flag").style.left = "50%";
-    document.getElementById("score").innerText = "0";
-    document.getElementById("streak").innerText = "0";
-    document.getElementById("timer").innerText = "60s";
-    document.getElementById("message").innerText = "";
-    nextQuestion();
-    startTimer();
+    document.getElementById("score").innerText = "Score: 0";
+    generateQuestion();
 }
 
-initDarkMode();
-nextQuestion();
-startTimer();
+generateQuestion();
 </script>
+
 </body>
 </html>
